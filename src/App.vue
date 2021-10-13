@@ -5,15 +5,19 @@
     <div class="wrapp">
       <router-view />
     </div>
+
+    <Footer />
   </div>
 </template>
 
 <script>
-import Navbar from "@/components/Navbar"
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer"
 
 export default {
   components: {
     Navbar,
+    Footer,
   }
 }
 </script>
@@ -23,7 +27,6 @@ export default {
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
 *{
-  background-color: #F6F3F3;
   box-sizing: border-box;
   color: #343030;
   padding: 0;
@@ -33,14 +36,17 @@ export default {
 }
 
 #app {
+  background-color: #F6F3F3;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
 }
 .wrapp {
-  max-width: 1314px;
+  max-width: 1314px;  
+  min-height: calc(100vh - 192px);
   padding: 45px;
   margin: 0 auto;
+  margin-top: 96px;
   @media (max-width: 1300px) {
     max-width: 1050px;
   }

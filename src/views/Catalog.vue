@@ -1,6 +1,6 @@
 <template>
-  <div class="home">
-    <h1 class="home__title">Картины эпохи Возрождения</h1>
+  <div class="catalog">
+    <h1 class="catalog__title">Картины эпохи Возрождения</h1>
     <div class="card">
       <CardProduct
         v-for="product in getProducts"
@@ -10,7 +10,6 @@
         @addInCart="addInCart"
     />
     </div>
-    
   </div>
 </template>
 
@@ -64,11 +63,10 @@ export default {
 </script>
 
 <style scoped>
-.home{
+.catalog{
   text-align: left;
-  position: absolute;
 }
-.home__title {
+.catalog__title {
   font-size: 24px;
   font-weight: 700;
   line-height: 36px;
@@ -78,7 +76,7 @@ export default {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  margin-top: 39px;
+  margin-top: 40px;
 }
 .popup {
   position: relative;

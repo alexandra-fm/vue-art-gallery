@@ -8,7 +8,7 @@
           tag="li"
           active-class="active"
           :to="link.url"
-          :exact="link.exact"
+          exact="true"
         >
           <a href="#">{{ link.title }}</a>
         </router-link>
@@ -38,8 +38,11 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
   display: flex;
   justify-content: center;
   width: 100%;
@@ -49,6 +52,8 @@ export default {
   font-size: 14px;
   line-height: 21px;
   border-bottom: 1px solid #E1E1E1;
+  background-color: #F6F3F3;
+box-shadow: 0px 0px 10px 0px rgba(52, 48, 48, 0.2);
 }
 .navbar__wrapper{
   width: 1120px;
