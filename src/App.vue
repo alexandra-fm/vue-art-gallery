@@ -38,8 +38,14 @@ export default {
   text-align: center;
 }
 .wrapp {
-  max-width: 1290px;
+  max-width: 1314px;
   padding: 45px;
   margin: 0 auto;
+  @media (max-width: 1300px) {
+    max-width: 1050px;
+  }
+  @media (max-width: 1000px) {
+    max-width: 700px;
+  }
 }
 </style>

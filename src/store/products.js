@@ -9,7 +9,7 @@ export default {
         image: require("../assets/Rozhdeniye_Venery.jpg"),
         isDiscount: true,
         isSold: false,
-        isInCart: true,
+        isInCart: false,
       },
       {
         id: 2,
@@ -19,7 +19,6 @@ export default {
         image: require("../assets/Taynaya_vecherya.jpg"),
         isDiscount: false,
         isSold: false,
-        isInCart: false,
       },
       {
         id: 3,
@@ -29,7 +28,6 @@ export default {
         image: require("../assets/Sotvoreniye_Adama.jpg"),
         isDiscount: true,
         isSold: false,
-        isInCart: false,
       },
       {
         id: 4,
@@ -39,30 +37,13 @@ export default {
         image: require("../assets/Urok_anatomii.jpg"),
         isDiscount: false,
         isSold: true,
-        isInCart: false,
       },
     ],
   },
-  mutations: {
-    addInCart(state, { ...products }, id) {
-      const a = this.state.products;
-      const b = a.map((product) =>
-        product.id === id
-          ? Object.assign({}, product, { isInCart: true })
-          : product
-      );
-      console.log(5, id, products, b);
-    },
-  },
-  actions: {
-    addInCart({ commit }, id) {
-      console.log(1, id);
-
-      commit("addInCart", id);
-    },
-  },
+  mutations: {},
+  actions: {},
   getters: {
-    allProducts(state) {
+    getProducts(state) {
       return state.products;
     },
   },

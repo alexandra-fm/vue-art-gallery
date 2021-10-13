@@ -1,12 +1,12 @@
 <template>
   <div class="home">
     <h1 class="home__title">Картины эпохи Возрождения</h1>
-    <!-- <img alt="Vue logo" src="../assets/Rozhdeniye_Venery.jpg" /> -->
     <div class="card">
       <CardProduct
-        v-for="product in allProducts"
+        v-for="product in getProducts"
         :key="product.id"
         :product="product"
+        :cart="cart"
         @addInCart="addInCart"
     />
     </div>
@@ -22,14 +22,42 @@ export default {
   components: {
     CardProduct,
   },
+  data: () => ({
+    cart: [],
+  }),
   computed: {
-    allProducts() {
-      return this.$store.getters.allProducts;
-    }
+    getProducts() {
+      return this.$store.getters.getProducts;
+
+      /* if(this.cart && this.cart.length) {
+        return products.map((el) => {
+          if(this.cart.includes(el.id)) {
+            return {...el, isInCart: true}
+          } 
+          return el
+        })
+      } else {
+      return products;
+      } */
+    }, 
+    /* getButtonTitle() {
+      const cartItem = this.cart.map((item) => item.id);
+      const isInCart = this.$store.products.filter(
+        (product) => product.id === cartItem
+      );
+      console.log(cartItem);
+      console.log(isInCart);
+      return (console.log(1*5))
+    } */
+  },
+  mounted() {
+    this.cart = JSON.parse(localStorage.getItem("cart"));
+    //this.$store.commit('initCard', elements)
+    //this.cart = elements.map((item) => item.id)
   },
   methods: {
-    addInCart(id) {
-      this.$store.dispatch("addInCart", id)
+    addInCart(product) {
+      this.$store.commit("addInCart", product)
     }
   }
 };
@@ -38,11 +66,13 @@ export default {
 <style scoped>
 .home{
   text-align: left;
+  position: absolute;
 }
 .home__title {
   font-size: 24px;
   font-weight: 700;
   line-height: 36px;
+  margin-left: 12px;
 }
 .card{
   display: flex;
@@ -50,4 +80,16 @@ export default {
   flex-wrap: wrap;
   margin-top: 39px;
 }
+.popup {
+  position: relative;
+}
+@media (max-width: 690px) {
+  .home {
+    text-align: center;
+  }
+  .card {
+    justify-content: center;
+  }
+}
+
 </style>

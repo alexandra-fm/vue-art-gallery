@@ -1,51 +1,95 @@
 <template>
-  <div class="card__wrapper" :class="{ sold: product.isSold }">
+  <div class="card">
+    <div class="card__wrapper" :class="{ sold: product.isSold }">
+      <div class="card__wrapper-img">
+        <img class="card__img" :alt="product.title" :src="product.image" />
+      </div>
 
-    <div class="card__wrapper-img">
-      <img class="card__img" :alt="product.title" :src="product.image" />
-    </div>
+      <div class="card__wrapper-info">
+        <button class="card__title-button" @click="showPopupInfo">
+          {{ product.title }}
+        </button>
+        <div class="card__wrapper-descr">
+          <div class="card__wrapper-text">
+            <p
+              v-if="!product.isSold"
+              class="card__text"
+              :class="{ price_cross: product.isDiscount }"
+            >
+              {{ product.price.toLocaleString("ru-RU") }} $
+            </p>
+            <p v-if="product.isDiscount" class="card__text" >
+              {{ product.priceWithDiscount.toLocaleString("ru-RU") }} $
+            </p>
+            <p v-if="product.isSold" class="card__text">Продана на аукционе</p>
+          </div>
 
-    <div class="card__wrapper-info">
-      <h2 class="card__title">{{ product.title }}</h2>
-      <div class="card__wrapper-descr">
-        <div class="card__wrapper-text">
-          <p
+          <button 
+            class="card__button"
+            @click="addInCart"
             v-if="!product.isSold"
-            class="card__text"
-            :class="{ price_cross: product.isDiscount }"
           >
-            {{ product.price.toLocaleString("ru-RU") }} $
-          </p>
-          <p v-if="product.isDiscount" class="card__text" >
-            {{ product.priceWithDiscount.toLocaleString("ru-RU") }} $
-          </p>
-          <p v-if="product.isSold" class="card__text">Продана на аукционе</p>
+            {{ getButtonTitle }}
+          </button>
         </div>
-        
-        <button @click="addInCart" v-if="!product.isSold">{{buttonTitle}}</button>
       </div>
     </div>
+
+    <Popup 
+      v-if="isInfoPopupVisible"
+      @closePopup ="closePopup" 
+    > 
+    <div class="card__wrapper-img">
+        <img class="card__img" :alt="product.title" :src="product.image" />
+      </div>
+      <h2 class="card__title" >
+          {{ product.title }}
+      </h2>
+      <div class="card__wrapper-text">
+        <p
+          v-if="!product.isSold"
+          class="card__text"
+          :class="{ price_cross: product.isDiscount }"
+        >
+          {{ product.price.toLocaleString("ru-RU") }} $
+        </p>
+        <p v-if="product.isDiscount" class="card__text" >
+          {{ product.priceWithDiscount.toLocaleString("ru-RU") }} $
+        </p>
+        <p v-if="product.isSold" class="card__text">Продана на аукционе</p>
+      </div>
+    </Popup >
   </div>
 </template>
 
 <script>
+import Popup from "@/components/Popup";
+
 export default {
-  props: ["product"],
+  props: ["product", "cart"],
+  components: {
+    Popup,
+  },
   data: () => ({
     buttonTitle: "Купить",
+    isInCart: false,
+    isInfoPopupVisible: false,
   }),
-  /* computed: {
-    setButtonTitle() {
-      if (!this.product.isInCart) {
-        return this.buttonTitle = "В корзине"
-      }
-        return buttonTitle = "Купить";
-      } 
-    }, */
-  
+  computed: {
+    getButtonTitle() {
+      return this.isInCart || this.product.inCart ? "В корзине" : "Купить"
+    },
+  },
   methods: {
     addInCart() {
-      this.$emit("addInCart", this.product.id);
+      this.isInCart = true
+      this.$emit("addInCart", this.product);
+    },
+    showPopupInfo() {
+      this.isInfoPopupVisible = true;
+    },
+    closePopup() {
+      this.isInfoPopupVisible = false;
     }
   }
 }
@@ -58,19 +102,22 @@ export default {
   justify-content: space-between;
   width: 280px;
   min-height: 328px;
-  margin-bottom: 25px;
+  margin: 0 12px 24px 12px;
   border: 1px solid #E1E1E1;
-  transition: 1s;
+  transition: 0.3s ease;
 }
 .card__wrapper:hover {
   transform: scale(1.05);
   box-shadow: 0px 5px 10px 2px rgba(52, 48, 48, 0.2);
 }
-.card__title {
+.card__title-button {  
+  border: none;
+  cursor: pointer;
+  text-align: left;
   font-size: 18px;
   line-height: 27px;
 }
-button{
+.card__button{
   width: 118px;
   height: 48px;
   background-color: #403432;
@@ -82,7 +129,7 @@ button{
   transition: 0.2s ease;
   cursor: pointer;
 }
-button:hover {
+.card__button:hover {
   background-color: #776763;
 }
 .card__wrapper-img {
@@ -124,6 +171,11 @@ button:hover {
   line-height: 21px;
   color: #A0A0A0;
   text-decoration: line-through;
+}
+@media (max-width: 690px) {
+  .card__wrapper {
+    text-align: left;
+  }
 }
 </style>
 
